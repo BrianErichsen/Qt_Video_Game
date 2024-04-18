@@ -17,14 +17,17 @@ class game1scene : public QGraphicsScene
 private:
     QGraphicsTextItem* droplet_count;
     QGraphicsTextItem* score_count;
+    QGraphicsTextItem* missed_count;
     int score;
     int collectedDroplets;
+    int missedDroplets;
 
 public:
     explicit game1scene(QGraphicsScene* parent = nullptr);
 
 public slots:
     void updateScore();
+    void updateMissedDroplet();
 };
 
 #endif // GAME1SCENE_H

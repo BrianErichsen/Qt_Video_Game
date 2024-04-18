@@ -22,6 +22,7 @@ game1scene::game1scene( QGraphicsScene* parent) :
     addItem(bucket_item);//adds item into scene
     score = 0;
     collectedDroplets = 0;
+    missedDroplets = 0;
     //-------------------
     droplet_count = new QGraphicsTextItem();
     droplet_count->setHtml("<font color='blue' size='5'>Collected Droplets: </font>" + QString("<font color='red' size='5'>%1</font>").arg(collectedDroplets) + "</font");
@@ -32,12 +33,18 @@ game1scene::game1scene( QGraphicsScene* parent) :
     score_count->setHtml("<font color='red' size='5'>Score: </font>" + QString("<font color='red' size='5'>%1</font>").arg(score) + "</font");
     score_count->setPos(10, 100);
     addItem(score_count);
+    //--------------------
+    missed_count = new QGraphicsTextItem();
+    missed_count->setHtml("<font color='green' size='5'>Missed Droplets: </font>" + QString("<font color='green' size='5'>%1</font>").arg(missedDroplets) + "</font");
+    missed_count->setPos(10, 140);
+    addItem(missed_count);
 
 
     //creates appropriate number of water droplets --16
     for (int i = 0; i < 75; ++i) {
         waterDroplet* water_droplets = new waterDroplet();
         connect(water_droplets, &waterDroplet::score_water, this, &game1scene::updateScore);
+        connect(water_droplets, &waterDroplet::missed_droplets, this, &game1scene::updateMissedDroplet);
 
         int rand_number_x = QRandomGenerator::global()->bounded(860);
         int rand_number_y = QRandomGenerator::global()->bounded(150);
@@ -60,6 +67,11 @@ void game1scene::updateScore() {
     //we can change design for something better
     droplet_count->setHtml("<font color='blue' size='5'>Collected Droplets: </font>" + QString("<font color='blue' size='5'>%1</font>").arg(collectedDroplets) + "</font");
     score_count->setHtml("<font color='red' size='5'>Score: </font>" + QString("<font color='red' size='5'>%1</font>").arg(score) + "</font");
+}
+
+void game1scene::updateMissedDroplet() {
+    missedDroplets++;
+    missed_count->setHtml("<font color='green' size='5'>Missed Droplets: </font>" + QString("<font color='green' size='5'>%1</font>").arg(missedDroplets) + "</font");
 }
 
 

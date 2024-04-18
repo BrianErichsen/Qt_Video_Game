@@ -18,6 +18,7 @@ public:
 
 signals:
     void score_water();
+    void missed_droplets();
 
 public slots:
     void move_droplet();

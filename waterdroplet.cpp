@@ -26,8 +26,9 @@ QGraphicsPixmapItem(parent)
 //method that moves droplets
 void waterDroplet::move_droplet() {
     //if pos is within screen then move droplet
+    int droplet_speed = 10;
     if (scene() && pos().y() < scene()->height()) {
-        setPos(x(), y() + 10);
+        setPos(x(), y() + droplet_speed);
         //checkes for collision
         QList<QGraphicsItem*> colliding_items = collidingItems();
         //iterate through all collisions
@@ -41,6 +42,7 @@ void waterDroplet::move_droplet() {
             }
         }
     } else { // here removes droplet if it is out of window
+        emit missed_droplets();
         scene()->removeItem(this);
         delete this;
     }
