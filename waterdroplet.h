@@ -11,9 +11,13 @@
 
 class waterDroplet : public QObject, public QGraphicsPixmapItem
 {
+    Q_OBJECT
 
 public:
-    waterDroplet();
+    explicit waterDroplet(QGraphicsPixmapItem* parent = nullptr);
+
+signals:
+    void score_water();
 
 public slots:
     void move_droplet();

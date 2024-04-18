@@ -1,6 +1,8 @@
 #include "waterdroplet.h"
 #include <QGraphicsScene>
 #include "bucket.h"
+#include "game1scene.h"
+
 
 /*Author: Brian Erichsen Fagundes
  * MSD - CS6015 Software Engineering
@@ -8,7 +10,10 @@
  * Implementation of waterDroplet class
 */
 //public constructor
-waterDroplet::waterDroplet() {
+waterDroplet::waterDroplet(QGraphicsPixmapItem* parent) :
+QGraphicsPixmapItem(parent)
+{
+
     //loads image from given path and sets its scale
     setPixmap(QPixmap("://resources/water.gif").scaled(30, 30));
     //creates and defines timer
@@ -29,6 +34,7 @@ void waterDroplet::move_droplet() {
         for (int i = 0; i < colliding_items.size(); ++i) {
             //if same type where bucket is then remove droplet and returns
             if (typeid(*(colliding_items[i])) == typeid(bucket)) {
+                emit score_water();
                 scene()->removeItem(this);
                 delete this;
                 return;//returns so we prevent further movement

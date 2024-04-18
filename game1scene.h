@@ -10,11 +10,21 @@
  * game1Scene class represents a QGraphicsScene object
 */
 
+
 class game1scene : public QGraphicsScene
 {
     Q_OBJECT
+private:
+    QGraphicsTextItem* droplet_count;
+    QGraphicsTextItem* score_count;
+    int score;
+    int collectedDroplets;
+
 public:
-    game1scene();
+    explicit game1scene(QGraphicsScene* parent = nullptr);
+
+public slots:
+    void updateScore();
 };
 
 #endif // GAME1SCENE_H
