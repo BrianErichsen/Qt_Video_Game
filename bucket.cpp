@@ -1,7 +1,7 @@
 #include "bucket.h"
 #include <QGraphicsScene>
 
-/*Author: Brian Erichsen Fagundes
+/*Author: Brian Erichsen Fagundes, Xiyao Xu & Xuan Zhang
  * MSD - CS6015 Software Engineering
  * Spring - 2024 - UofU
  * class bucket implementation

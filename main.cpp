@@ -2,7 +2,7 @@
 #include <QGraphicsView>
 #include "game1scene.h"
 
-/*Author: Brian Erichsen Fagundes
+/*Author: Brian Erichsen Fagundes, Xiyao Xu & Xuan Zhang
  * MSD - CS6015 Software Engineering
  * Spring - 2024 - UofU
  * Creates a fun game --- run it and check it out

@@ -4,14 +4,15 @@
 #include "game1scene.h"
 
 
-/*Author: Brian Erichsen Fagundes
+
+/*Author: Brian Erichsen Fagundes, Xiyao Xu & Xuan Zhang
  * MSD - CS6015 Software Engineering
  * Spring - 2024 - UofU
  * Implementation of waterDroplet class
 */
 //public constructor
-waterDroplet::waterDroplet(QGraphicsPixmapItem* parent) :
-QGraphicsPixmapItem(parent)
+waterDroplet::waterDroplet(game1scene* scene, QGraphicsPixmapItem* parent) :
+    QGraphicsPixmapItem(parent), gameScene(scene)
 {
 
     //loads image from given path and sets its scale
@@ -25,8 +26,13 @@ QGraphicsPixmapItem(parent)
 
 //method that moves droplets
 void waterDroplet::move_droplet() {
+    //start with base speed
+    int base_speed = 10;
+    //the speed is calculated based on number of collected droplets; one factor up each 5 collected droplets
+    int droplet_speed = base_speed * (gameScene->getCollectedDroplets() / 5 + 1 );
+    //sets a limit of max 16 * base speed
+    droplet_speed = qMin(droplet_speed, 16 * base_speed);
     //if pos is within screen then move droplet
-    int droplet_speed = 10;
     if (scene() && pos().y() < scene()->height()) {
         setPos(x(), y() + droplet_speed);
         //checkes for collision
@@ -42,6 +48,7 @@ void waterDroplet::move_droplet() {
             }
         }
     } else { // here removes droplet if it is out of window
+        //emit triggers the signal missed droplet to be sent to slot on game1scene class
         emit missed_droplets();
         scene()->removeItem(this);
         delete this;

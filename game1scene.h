@@ -4,7 +4,7 @@
 #include "bucket.h"
 #include "waterdroplet.h"
 
-/*Author: Brian Erichsen Fagundes
+/*Author: Brian Erichsen Fagundes, Xiyao Xu & Xuan Zhang
  * MSD - CS6015 Software Engineering
  * Spring - 2024 - UofU
  * game1Scene class represents a QGraphicsScene object
@@ -24,6 +24,10 @@ private:
 
 public:
     explicit game1scene(QGraphicsScene* parent = nullptr);
+    int getCollectedDroplets();
+    int getScore();
+    int getMissedDroplets();
+
 
 public slots:
     void updateScore();
