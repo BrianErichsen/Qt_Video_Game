@@ -39,22 +39,14 @@ game1scene::game1scene( QGraphicsScene* parent) :
     missed_count->setHtml("<font color='green' size='5'>Missed Droplets: </font>" + QString("<font color='green' size='5'>%1</font>").arg(missedDroplets) + "</font");
     missed_count->setPos(10, 140);
     addItem(missed_count);
-
+    //----creates timer for spawning droplets through the play of the game
+    spawn_droplets = new QTimer(this);
+    connect(spawn_droplets, &QTimer::timeout, this, &game1scene::spawn_water_slot);
+    spawn_droplets->start(0);
+    spawn_droplets->setInterval(10000);
 
     //creates appropriate number of water droplets --16
-    for (int i = 0; i < 75; ++i) {
-        waterDroplet* water_droplets = new waterDroplet(this);
-        //connects score water signal to update score slot / method
-        connect(water_droplets, &waterDroplet::score_water, this, &game1scene::updateScore);
-        //connects missed droplets signal to update amount of missed droplets
-        connect(water_droplets, &waterDroplet::missed_droplets, this, &game1scene::updateMissedDroplet);
-        //randomly chooses a spawn point
-        int rand_number_x = QRandomGenerator::global()->bounded(860);
-        int rand_number_y = QRandomGenerator::global()->bounded(150);
-        //making sure that no droplet is out of reach from bucket
-        water_droplets->setPos(rand_number_x + 10, 75 + rand_number_y);
-        addItem(water_droplets);
-    }
+    spawn_water_slot();
     //creates appropriate number of clouds up on the screen
     for (int i = 0; i < 7; ++i) {
         QGraphicsPixmapItem* clouds = new QGraphicsPixmapItem();
@@ -89,3 +81,18 @@ int game1scene::getScore() {
     return score;
 }
 
+void game1scene::spawn_water_slot() {
+    for (int i = 0; i < 9; ++i) {
+        waterDroplet* water_droplets = new waterDroplet(this);
+        //connects score water signal to update score slot / method
+        connect(water_droplets, &waterDroplet::score_water, this, &game1scene::updateScore);
+        //connects missed droplets signal to update amount of missed droplets
+        connect(water_droplets, &waterDroplet::missed_droplets, this, &game1scene::updateMissedDroplet);
+        //randomly chooses a spawn point
+        int rand_number_x = QRandomGenerator::global()->bounded(860);
+        int rand_number_y = QRandomGenerator::global()->bounded(150);
+        //making sure that no droplet is out of reach from bucket
+        water_droplets->setPos(rand_number_x + 10, 75 + rand_number_y);
+        addItem(water_droplets);
+    }
+}

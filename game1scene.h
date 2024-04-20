@@ -18,6 +18,7 @@ private:
     QGraphicsTextItem* droplet_count;
     QGraphicsTextItem* score_count;
     QGraphicsTextItem* missed_count;
+    QTimer* spawn_droplets;
     int score;
     int collectedDroplets;
     int missedDroplets;
@@ -32,6 +33,7 @@ public:
 public slots:
     void updateScore();
     void updateMissedDroplet();
+    void spawn_water_slot();
 };
 
 #endif // GAME1SCENE_H
