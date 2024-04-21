@@ -72,7 +72,6 @@ void game1scene::updateScore() {
         winText->setPos(xPos, yPos);
         addItem(winText);
         spawn_droplets->stop();
-        QIcon::ThemeIcon::CallStop;
     }
 }
 
@@ -91,8 +90,6 @@ void game1scene::updateMissedDroplet() {
         addItem(gameOverText);
         //stops creating new droplets
         spawn_droplets->stop();
-        //disconnects updating slots
-        QIcon::ThemeIcon::CallStop;
     }
 }
 //-------------  getters methods

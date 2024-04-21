@@ -19,6 +19,10 @@ void bucket::keyPressEvent(QKeyEvent* event) {
     qreal left_limit = scene()->sceneRect().left();
     //calculates the right edge of scene minus with width of the bucket
     qreal right_limit = scene()->sceneRect().right() - pixmap().width();
+    if (gameScene_bucket->getMissedDroplets() >= 5 || gameScene_bucket->getScore() >= 150) {
+        this->setFlag(QGraphicsItem::ItemIsFocusable, false);
+        this->setEnabled(false);
+    }
 
     //if key is right & pos within limits then move x pos 10 pixels to the right
     if (event->key() == Qt::Key_Right && pos().x() < right_limit) {
@@ -26,9 +30,5 @@ void bucket::keyPressEvent(QKeyEvent* event) {
     //if key is left & pos within limits then move x pos - 10 pixels
     } else if (event->key() == Qt::Key_Left && pos().x() > left_limit) {
         setPos(x() - 10, y());
-    } else if (gameScene_bucket->getMissedDroplets() >= 5 || gameScene_bucket->getScore() >= 150) {
-        scene()->removeItem(this);
-        delete this;
-        return;
     }
 }
