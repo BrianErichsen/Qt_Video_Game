@@ -1,5 +1,6 @@
 #include "bucket.h"
 #include <QGraphicsScene>
+#include "game1scene.h"
 
 /*Author: Brian Erichsen Fagundes, Xiyao Xu & Xuan Zhang
  * MSD - CS6015 Software Engineering
@@ -7,7 +8,7 @@
  * class bucket implementation
 */
 
-bucket::bucket() {
+bucket::bucket(game1scene* scene) : gameScene_bucket(scene) {
     setPixmap(QPixmap("://resources/bucket.png").scaled(150, 150));
     setFlag(QGraphicsItem::ItemIsFocusable);
     setFocus();
@@ -25,5 +26,9 @@ void bucket::keyPressEvent(QKeyEvent* event) {
     //if key is left & pos within limits then move x pos - 10 pixels
     } else if (event->key() == Qt::Key_Left && pos().x() > left_limit) {
         setPos(x() - 10, y());
+    } else if (gameScene_bucket->getMissedDroplets() >= 5 || gameScene_bucket->getScore() >= 150) {
+        scene()->removeItem(this);
+        delete this;
+        return;
     }
 }

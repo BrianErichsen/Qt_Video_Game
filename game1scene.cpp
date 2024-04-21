@@ -3,6 +3,8 @@
 #include <QGraphicsPixmapItem>
 #include <QRandomGenerator>
 #include "waterdroplet.h"
+#include "QMessageBox"
+#include <QSignalBlocker>
 
 /*Author: Brian Erichsen Fagundes, Xiyao Xu & Xuan Zhang
  * MSD - CS6015 Software Engineering
@@ -17,7 +19,7 @@ game1scene::game1scene( QGraphicsScene* parent) :
     setBackgroundBrush(QBrush(QImage(":/resources/background.jpg").scaledToHeight(512) .scaledToWidth(910)));
     setSceneRect(0, 0, 908, 510);
     //creates instance of bucket
-    bucket* bucket_item = new bucket();
+    bucket* bucket_item = new bucket(this);
     bucket_item->setPos(400, 365);//sets it's initial position
     addItem(bucket_item);//adds item into scene
     //sets variables into 0 in initial state
@@ -26,7 +28,7 @@ game1scene::game1scene( QGraphicsScene* parent) :
     missedDroplets = 0;
     //------------------- creates text item for collected droplets
     droplet_count = new QGraphicsTextItem();
-    droplet_count->setHtml("<font color='blue' size='5'>Collected Droplets: </font>" + QString("<font color='red' size='5'>%1</font>").arg(collectedDroplets) + "</font");
+    droplet_count->setHtml("<font color='blue' size='5'>Collected Droplets: </font>" + QString("<font color='blue' size='5'>%1</font>").arg(collectedDroplets) + "</font");
     droplet_count->setPos(10, 120);
     addItem(droplet_count);
     //------------------- creates text item for showing total score
@@ -58,15 +60,40 @@ game1scene::game1scene( QGraphicsScene* parent) :
 
 void game1scene::updateScore() {
     collectedDroplets++;//increments collected droplets variable
-    score += 5;//each droplet is worth 5 points
+    score += 20;//each droplet is worth 5 points
     //we can change design for something better
     droplet_count->setHtml("<font color='blue' size='5'>Collected Droplets: </font>" + QString("<font color='blue' size='5'>%1</font>").arg(collectedDroplets) + "</font");
     score_count->setHtml("<font color='red' size='5'>Score: </font>" + QString("<font color='red' size='5'>%1</font>").arg(score) + "</font");
+    if (score >= 150) {
+        QGraphicsTextItem* winText = new QGraphicsTextItem();
+        winText->setHtml("<font color='red' size='8'> You Won the Game!!!! </font");
+        int xPos = width() / 2 - winText->boundingRect().width() / 2;
+        int yPos = width() / 2 - winText->boundingRect().height() / 2;
+        winText->setPos(xPos, yPos);
+        addItem(winText);
+        spawn_droplets->stop();
+        QIcon::ThemeIcon::CallStop;
+    }
 }
 
 void game1scene::updateMissedDroplet() {
     missedDroplets++;//increments missed droplets and set new text to screen
     missed_count->setHtml("<font color='green' size='5'>Missed Droplets: </font>" + QString("<font color='green' size='5'>%1</font>").arg(missedDroplets) + "</font");
+    //sets the rule to lose the game condition
+    if (missedDroplets >= 5) {
+        //creates a new text that will display loosing message
+        QGraphicsTextItem* gameOverText = new QGraphicsTextItem();
+        gameOverText->setHtml("<font color='red' size='8'> Game Over! </font");
+        int xPos = width() / 2 - gameOverText->boundingRect().width() / 2;
+        int yPos = width() / 2 - gameOverText->boundingRect().height() / 2;
+        gameOverText->setPos(xPos, yPos);
+        //adds it to main layout
+        addItem(gameOverText);
+        //stops creating new droplets
+        spawn_droplets->stop();
+        //disconnects updating slots
+        QIcon::ThemeIcon::CallStop;
+    }
 }
 //-------------  getters methods
 int game1scene::getCollectedDroplets() {

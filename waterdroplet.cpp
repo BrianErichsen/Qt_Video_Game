@@ -32,6 +32,12 @@ void waterDroplet::move_droplet() {
     int droplet_speed = base_speed * (gameScene->getCollectedDroplets() / 5 + 1 );
     //sets a limit of max 16 * base speed
     droplet_speed = qMin(droplet_speed, 16 * base_speed);
+    //optional for now --
+    if (gameScene->getMissedDroplets() >= 5 || gameScene->getScore() >= 150) {
+        scene()->removeItem(this);
+        delete this;
+        return;
+    }
     //if pos is within screen then move droplet
     if (scene() && pos().y() < scene()->height()) {
         setPos(x(), y() + droplet_speed);
