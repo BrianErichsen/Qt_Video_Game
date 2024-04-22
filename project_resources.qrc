@@ -4,5 +4,7 @@
         <file>resources/background.jpg</file>
         <file>resources/water.gif</file>
         <file>resources/cloud.png</file>
+        <file>resources/score_water.wav</file>
+        <file>resources/missed_droplets.wav</file>
     </qresource>
 </RCC>

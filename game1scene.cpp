@@ -53,10 +53,6 @@ game1scene::game1scene( QGraphicsScene* parent) :
     spawn_droplets->start(0);
     spawn_droplets->setInterval(10000);
 
-    // Direct sound play calls are assumed to be connected to events
-    connect(this, &game1scene::score_water, &scoreSound, &QSoundEffect::play);
-    connect(this, &game1scene::missed_droplets, &missSound, &QSoundEffect::play);
-
     //creates appropriate number of water droplets --16
     spawn_water_slot();
     //creates appropriate number of clouds up on the screen
@@ -122,6 +118,8 @@ void game1scene::spawn_water_slot() {
         connect(water_droplets, &waterDroplet::score_water, this, &game1scene::updateScore);
         //connects missed droplets signal to update amount of missed droplets
         connect(water_droplets, &waterDroplet::missed_droplets, this, &game1scene::updateMissedDroplet);
+        connect(water_droplets, &waterDroplet::score_water, &scoreSound, &QSoundEffect::play);
+        connect(water_droplets, &waterDroplet::missed_droplets, &missSound, &QSoundEffect::play);
         //randomly chooses a spawn point
         int rand_number_x = QRandomGenerator::global()->bounded(860);
         int rand_number_y = QRandomGenerator::global()->bounded(150);
@@ -129,4 +127,8 @@ void game1scene::spawn_water_slot() {
         water_droplets->setPos(rand_number_x + 10, 75 + rand_number_y);
         addItem(water_droplets);
     }
+}
+
+int game1scene::getDifficulty() {
+    return 1;
 }

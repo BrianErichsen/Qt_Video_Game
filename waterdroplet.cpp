@@ -19,13 +19,15 @@ waterDroplet::waterDroplet(game1scene* scene, QGraphicsPixmapItem* parent) :
     timer_drop = new QTimer(this);
     // Connect move_droplet method to timer
     connect(timer_drop, &QTimer::timeout, this, &waterDroplet::move_droplet);
-    timer_drop->start(50); // Starts timer with a faster rate
+    timer_drop->start(1000); // Starts timer with a faster rate
 }
 
 // Method that moves droplets
 void waterDroplet::move_droplet() {
     // Start with base speed adjusted for game mode
     int base_speed = calculateSpeedBasedOnGameMode();
+    int droplet_speed = base_speed * (gameScene->getCollectedDroplets() / 5 + 1);
+    droplet_speed = qMin(droplet_speed, 16 * base_speed);
     // Optional: if the game's end condition is met, stop the game
     if (gameScene->getMissedDroplets() >= 5 || gameScene->getScore() >= 150) {
         emit gameOver(); // Notify game scene of the game over state
@@ -34,7 +36,7 @@ void waterDroplet::move_droplet() {
 
     // If droplet is within screen then move droplet
     if (scene() && pos().y() < scene()->height()) {
-        setPos(x(), y() + base_speed);
+        setPos(x(), y() + droplet_speed);
         // Check for collisions
         QList<QGraphicsItem*> colliding_items = collidingItems();
         for (auto& item : colliding_items) {

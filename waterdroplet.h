@@ -18,13 +18,13 @@ class waterDroplet : public QObject, public QGraphicsPixmapItem {
 public:
     explicit waterDroplet(game1scene* scene, QGraphicsPixmapItem* parent = nullptr);
 
-    signals:
-            void score_water(); // Emitted when the water droplet scores by colliding with a bucket
+signals:
+    void score_water(); // Emitted when the water droplet scores by colliding with a bucket
     void missed_droplets(); // Emitted when the water droplet is missed
     void gameOver(); // Emitted when the game over condition is met
 
 public slots:
-            void move_droplet(); // Slot that handles the movement and game logic for the droplet
+    void move_droplet(); // Slot that handles the movement and game logic for the droplet
 
 private:
     QTimer* timer_drop; // Timer for controlling the movement interval of the droplet

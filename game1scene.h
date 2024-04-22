@@ -29,6 +29,7 @@ public:
     int getCollectedDroplets();
     int getScore();
     int getMissedDroplets();
+    int getDifficulty();
 
 public slots:
     void updateScore();
