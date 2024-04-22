@@ -2,6 +2,7 @@
 #define GAME1SCENE_H
 #include <QGraphicsScene>
 #include "bucket.h"
+#include <QSoundEffect> // Include for sound effects
 #include "waterdroplet.h"
 
 /*Author: Brian Erichsen Fagundes, Xiyao Xu & Xuan Zhang
@@ -9,8 +10,6 @@
  * Spring - 2024 - UofU
  * game1Scene class represents a QGraphicsScene object
 */
-
-
 class game1scene : public QGraphicsScene
 {
     Q_OBJECT
@@ -19,6 +18,8 @@ private:
     QGraphicsTextItem* score_count;
     QGraphicsTextItem* missed_count;
     QTimer* spawn_droplets;
+    QSoundEffect scoreSound; // Sound effect for scoring
+    QSoundEffect missSound; // Sound effect for missing a droplet
     int score;
     int collectedDroplets;
     int missedDroplets;
@@ -28,7 +29,6 @@ public:
     int getCollectedDroplets();
     int getScore();
     int getMissedDroplets();
-
 
 public slots:
     void updateScore();

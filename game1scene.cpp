@@ -1,9 +1,9 @@
 #include "game1scene.h"
-#include <QtCore/QCoreApplication> //
+#include <QtCore/QCoreApplication>
 #include <QGraphicsPixmapItem>
 #include <QRandomGenerator>
 #include "waterdroplet.h"
-#include "QMessageBox"
+#include <QMessageBox>
 #include <QSignalBlocker>
 
 /*Author: Brian Erichsen Fagundes, Xiyao Xu & Xuan Zhang
@@ -18,6 +18,12 @@ game1scene::game1scene( QGraphicsScene* parent) :
     //loads back ground into scene and scale it
     setBackgroundBrush(QBrush(QImage(":/resources/background.jpg").scaledToHeight(512) .scaledToWidth(910)));
     setSceneRect(0, 0, 908, 510);
+    // Initialize sound effects
+    scoreSound.setSource(QUrl("qrc:/resources/score_water.wav"));
+    scoreSound.setVolume(0.75); // Set volume for scoring sound
+    missSound.setSource(QUrl("qrc:/resources/missed_droplets.wav"));
+    missSound.setVolume(0.75); // Set volume for missed sound
+
     //creates instance of bucket
     bucket* bucket_item = new bucket(this);
     bucket_item->setPos(400, 365);//sets it's initial position
@@ -46,6 +52,10 @@ game1scene::game1scene( QGraphicsScene* parent) :
     connect(spawn_droplets, &QTimer::timeout, this, &game1scene::spawn_water_slot);
     spawn_droplets->start(0);
     spawn_droplets->setInterval(10000);
+
+    // Direct sound play calls are assumed to be connected to events
+    connect(this, &game1scene::score_water, &scoreSound, &QSoundEffect::play);
+    connect(this, &game1scene::missed_droplets, &missSound, &QSoundEffect::play);
 
     //creates appropriate number of water droplets --16
     spawn_water_slot();
