@@ -6,5 +6,6 @@
         <file>resources/cloud.png</file>
         <file>resources/score_water.wav</file>
         <file>resources/missed_droplets.wav</file>
+        <file>resources/background_music.mp3</file>
     </qresource>
 </RCC>

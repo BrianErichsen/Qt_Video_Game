@@ -4,6 +4,9 @@
 #include "bucket.h"
 #include <QSoundEffect> // Include for sound effects
 #include "waterdroplet.h"
+#include <QMediaPlayer>
+#include <QAudioOutput>
+
 
 /*Author: Brian Erichsen Fagundes, Xiyao Xu & Xuan Zhang
  * MSD - CS6015 Software Engineering
@@ -21,10 +24,12 @@ private:
     QSoundEffect scoreSound; // Sound effect for scoring
     QSoundEffect missSound; // Sound effect for missing a droplet
     QMediaPlayer* backgroundMusic;
+    QAudioOutput* audioOutput;
     int score;
     int collectedDroplets;
     int missedDroplets;
     int currentDifficulty;//Used for storing the current game difficulty
+
 
 public:
     explicit game1scene(QGraphicsScene* parent = nullptr);
@@ -32,6 +37,7 @@ public:
     int getScore();
     int getMissedDroplets();
     int getDifficulty();
+    int setDifficulty(int difficulty);
 
 public slots:
     void updateScore();
