@@ -5,6 +5,10 @@
 #include "waterdroplet.h"
 #include <QMessageBox>
 #include <QSignalBlocker>
+#include <QMediaPlayer>
+#include <QAudioOutput>
+
+
 
 /*Author: Brian Erichsen Fagundes, Xiyao Xu & Xuan Zhang
  * MSD - CS6015 Software Engineering
@@ -12,17 +16,24 @@
  * class game part 1 scene implementation
 */
 
-game1scene::game1scene( QGraphicsScene* parent) :
-    QGraphicsScene(parent)
+game1scene::game1scene(QGraphicsScene* parent) : QGraphicsScene(parent)
 {
-    //loads back ground into scene and scale it
-    setBackgroundBrush(QBrush(QImage(":/resources/background.jpg").scaledToHeight(512) .scaledToWidth(910)));
+    // Load background into scene and scale it
+    setBackgroundBrush(QBrush(QImage(":/resources/background.jpg").scaledToHeight(512).scaledToWidth(910)));
     setSceneRect(0, 0, 908, 510);
+
     // Initialize sound effects
     scoreSound.setSource(QUrl("qrc:/resources/score_water.wav"));
     scoreSound.setVolume(0.75); // Set volume for scoring sound
     missSound.setSource(QUrl("qrc:/resources/missed_droplets.wav"));
     missSound.setVolume(0.75); // Set volume for missed sound
+
+    backgroundMusic = new QMediaPlayer(this);
+    audioOutput = new QAudioOutput(this);  // 初始化 QAudioOutput
+    backgroundMusic->setAudioOutput(audioOutput); // 设置 QMediaPlayer 使用的音频输出
+    backgroundMusic->setSource(QUrl("qrc:/resources/background_music.mp3")); // 设置背景音乐源
+    audioOutput->setVolume(0.5); // 设置音量为 50%
+    backgroundMusic->play(); // 播放背景音乐
 
     //creates instance of bucket
     bucket* bucket_item = new bucket(this);
@@ -112,7 +123,7 @@ int game1scene::getScore() {
 }
 
 void game1scene::spawn_water_slot() {
-    for (int i = 0; i < 9; ++i) {
+    for (int i = 0; i < 7; ++i) {
         waterDroplet* water_droplets = new waterDroplet(this);
         //connects score water signal to update score slot / method
         connect(water_droplets, &waterDroplet::score_water, this, &game1scene::updateScore);
@@ -129,6 +140,11 @@ void game1scene::spawn_water_slot() {
     }
 }
 
-int game1scene::getDifficulty() {
-    return 1;
+int game1scene::setDifficulty(int difficulty) {
+    currentDifficulty = difficulty;  // Store the difficulty value set from outside
 }
+
+int game1scene::getDifficulty() {
+    return currentDifficulty;  // Return the currently stored difficulty value
+}
+

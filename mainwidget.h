@@ -9,7 +9,12 @@
 #include <QLabel>
 #include "signup.h"
 #include "userwindow.h"
+<<<<<<< HEAD
 #include "user.h"
+=======
+#include <QComboBox>//Game difficulty dropdown menu
+
+>>>>>>> 238a4b1b031bd99913846e6248172b6519b8e3b5
 
 class mainwidget : public QWidget
 {
@@ -29,6 +34,7 @@ private:
     QLabel* password_label;
     Signup* signupWidget;
     UserWindow* userWindow;
+    QComboBox* difficultyComboBox;
 
 private slots:
     void start_game_easy();

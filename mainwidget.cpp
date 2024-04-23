@@ -25,6 +25,18 @@ mainwidget::mainwidget(QWidget* parent) : QWidget{parent}
     mainLayout->addWidget(login_btn, 1);
     setLayout(mainLayout);
 
+// Create a QComboBox widget for selecting game difficulty
+    difficultyComboBox = new QComboBox(this);
+
+// Add options for game difficulty: Easy, Medium, Hard
+    difficultyComboBox->addItem("Easy", QVariant(1));
+    difficultyComboBox->addItem("Medium", QVariant(2));
+    difficultyComboBox->addItem("Hard", QVariant(3));
+
+// Add the difficultyComboBox to the main layout
+    mainLayout->addWidget(difficultyComboBox);
+
+
     connect(play_btn, &QPushButton::clicked, this, &mainwidget::start_game_easy);
     connect(login_btn, &QPushButton::clicked, this, &mainwidget::login_);
     connect(signup_btn, &QPushButton::clicked, this, &mainwidget::signup_);
@@ -44,14 +56,18 @@ mainwidget::~mainwidget()
 }
 
 void mainwidget::start_game_easy() {
+    int difficulty = difficultyComboBox->currentData().toInt();
     game1scene* gameScene = new game1scene();
+    gameScene->setDifficulty(difficulty);  // Set the difficulty level for the game scene
     QGraphicsView* mainView = new QGraphicsView(gameScene);
     mainView->setFixedSize(910, 512);
-    mainView->setHorizontalScrollBarPolicy((Qt::ScrollBarAlwaysOff));
-    mainView->setVerticalScrollBarPolicy((Qt::ScrollBarAlwaysOff));
+    mainView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    mainView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     mainView->show();
     this->close();
 }
+
+
 
 void mainwidget::login_() {
     QString username = username_edit->text();
