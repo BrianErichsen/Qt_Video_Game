@@ -9,6 +9,7 @@
 UserWindow::UserWindow(User* user, QWidget* parent) : QWidget(parent), loggedInUser(user)
 {
     mainLayout = new QVBoxLayout;
+    setStyleSheet("background-color: lightblue; color: black;");
     if (loggedInUser) {
         nameLabel = new QLabel("Username: " + loggedInUser->getUsername());
         profilePictureLabel = new QLabel;
@@ -38,6 +39,7 @@ UserWindow::UserWindow(User* user, QWidget* parent) : QWidget(parent), loggedInU
         startButton = new QPushButton("Start Game");
         connect(startButton, &QPushButton::clicked, this, &UserWindow::startGame);
 
+
         // logoutButton = new QPushButton("Logout");
         // connect(logoutButton, &QPushButton::clicked, this, &::UserWindow::layout);
 
@@ -57,15 +59,35 @@ void UserWindow::startGame()
 {
     game1scene* gameScene = new game1scene();
     QGraphicsView* gameView = new QGraphicsView(gameScene);
+    connect(gameScene, &game1scene::gameFinished, this, [this](int score) {
+    loggedInUser->addGameScore(score);
+    });
+    gameScene->this_user = loggedInUser;
     gameView->setFixedSize(910, 512);
     gameView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     gameView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     gameView->show();
     this->hide();
+    //    static QMetaObject::Connection connect(const QObject *sender, const QMetaMethod &signal,
+                        // const QObject *receiver, const QMetaMethod &method,
+                        // Qt::ConnectionType type = Qt::AutoConnection);
 }
 
 // void UserWindow::logout() {
 //     emit loggedOut();
 //     this->close();
+// }
+
+void UserWindow::displayScoreHx() {
+    if (loggedInUser->gameScores.size() > 0) {
+        for (int score : loggedInUser->gameScores) {
+            QLabel* scoreLabel = new QLabel("Score: " + QString::number(score));
+            mainLayout->addWidget(scoreLabel);
+        }
+    }
+}
+
+// void UserWindow::showWindow(){
+//     this->show();
 // }
 

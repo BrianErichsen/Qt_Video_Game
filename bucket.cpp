@@ -26,7 +26,7 @@ void bucket::keyPressEvent(QKeyEvent* event) {
 
     //if key is right & pos within limits then move x pos 10 pixels to the right
     if (event->key() == Qt::Key_Right && pos().x() < right_limit) {
-            setPos(x() + 10, y());
+            setPos(x() + 15, y());
     //if key is left & pos within limits then move x pos - 10 pixels
     } else if (event->key() == Qt::Key_Left && pos().x() > left_limit) {
         setPos(x() - 10, y());

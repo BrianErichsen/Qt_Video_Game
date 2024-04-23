@@ -5,6 +5,8 @@
 
 mainwidget::mainwidget(QWidget* parent) : QWidget{parent}
 {
+    setWindowTitle("Droplet Game");
+    setStyleSheet("background-color: lightblue; color: black;");
     mainLayout = new QVBoxLayout;
     play_btn = new QPushButton("Play as a guest");
     signup_btn = new QPushButton("Sign up");
@@ -47,6 +49,8 @@ mainwidget::mainwidget(QWidget* parent) : QWidget{parent}
 
     userWindow = nullptr;
     // connect(userWindow, &UserWindow::loggedOut, this, &mainwidget::handleLogout);
+
+
 }
 
 mainwidget::~mainwidget()

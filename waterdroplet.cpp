@@ -1,4 +1,4 @@
-#include "waterDroplet.h"
+#include "waterdroplet.h"
 #include <QGraphicsScene>
 #include "bucket.h"
 #include "game1scene.h"

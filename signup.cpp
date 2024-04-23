@@ -4,6 +4,7 @@
 #include <QLabel>
 #include "user.h"
 #include <QVector>
+#include "game1scene.h"
 
 Signup::Signup(QWidget* parent) : QWidget(parent) {
     setupUI();
@@ -25,6 +26,7 @@ Signup::~Signup() {
 
 void Signup::setupUI() {
     mainLayout_signUp = new QVBoxLayout(this);
+    setStyleSheet("background-color: lightblue; color: black;");
     QFormLayout* formLayout = new QFormLayout();
 
     firstNameEdit = new QLineEdit();
@@ -82,11 +84,11 @@ void Signup::onOkClicked() {
         QVector<User*>& users = User::getUsers();
         users.append(newUser);
         userWindow_signup = new UserWindow(newUser);
+        // connect(userWindow_signup, &game1scene::gameFinished, newUser, &User::addGameScore);
 
         userWindow_signup->show();
         this->close();
         emit signupSuccessful();
-
     }
 }
 

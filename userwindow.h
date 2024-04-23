@@ -13,6 +13,7 @@ class UserWindow : public QWidget
 
 public:
     explicit UserWindow(User* user, QWidget* parent = nullptr);
+    void displayScoreHx();
 
 private:
     User* loggedInUser;
@@ -26,6 +27,7 @@ private:
 
 private slots:
     void startGame();
+    // void showWindow();
 //     void logout();
 
 // signals:
