@@ -10,12 +10,14 @@
 #include <QComboBox>
 #include <QMessageBox>
 #include <QFileDialog>
+#include <userwindow.h>
 
 class Signup : public QWidget {
     Q_OBJECT
 public:
     explicit Signup(QWidget* parent = nullptr);
     ~Signup();
+    QVBoxLayout* mainLayout_signUp;
 
 signals:
     void signupSuccessful();
@@ -36,6 +38,7 @@ private:
     QLineEdit* passwordEdit;
     QPushButton* okBtn;
     QPushButton* cancelBtn;
+    UserWindow* userWindow_signup;
 
     void setupUI();
     bool validateForm();

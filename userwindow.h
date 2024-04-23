@@ -22,9 +22,14 @@ private:
     QLabel* dateLabel;
     QLabel* birthdayLabel;
     QPushButton* startButton;
+    // QPushButton* logoutButton;
 
 private slots:
     void startGame();
+//     void logout();
+
+// signals:
+//     void loggedOut();
 };
 
 #endif // USERWINDOW_H

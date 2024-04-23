@@ -2,6 +2,8 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QLabel>
+#include "user.h"
+#include <QVector>
 
 Signup::Signup(QWidget* parent) : QWidget(parent) {
     setupUI();
@@ -22,7 +24,7 @@ Signup::~Signup() {
 }
 
 void Signup::setupUI() {
-    QVBoxLayout* mainLayout = new QVBoxLayout(this);
+    mainLayout_signUp = new QVBoxLayout(this);
     QFormLayout* formLayout = new QFormLayout();
 
     firstNameEdit = new QLineEdit();
@@ -57,19 +59,34 @@ void Signup::setupUI() {
     btnLayout->addWidget(okBtn);
     btnLayout->addWidget(cancelBtn);
 
-    mainLayout->addLayout(formLayout);
-    mainLayout->addLayout(btnLayout);
+    mainLayout_signUp->addLayout(formLayout);
+    mainLayout_signUp->addLayout(btnLayout);
 
     connect(okBtn, &QPushButton::clicked, this, &Signup::onOkClicked);
     connect(cancelBtn, &QPushButton::clicked, this, &Signup::onCancelClicked);
     connect(profilePicBtn, &QPushButton::clicked, this, &Signup::onSelectProfilePictureClicked);
+    userWindow_signup = nullptr;
 }
 
 void Signup::onOkClicked() {
     if (validateForm()) {
-        QMessageBox::information(this, "Signup Successful", "You have signed up successfully!");
+        QString firstName = firstNameEdit->text();
+        QString lastName = lastNameEdit->text();
+        QDate dob = dobEdit->date();
+        QString gender = genderCombo->currentText();
+        QString profilePicturePath = profilePicEdit->text();
+        QString username = usernameEdit->text();
+        QString password = passwordEdit->text();
+
+        User* newUser = new User(username, dob, profilePicturePath, username, password, lastName, gender);
+        QVector<User*>& users = User::getUsers();
+        users.append(newUser);
+        userWindow_signup = new UserWindow(newUser);
+
+        userWindow_signup->show();
         this->close();
         emit signupSuccessful();
+
     }
 }
 

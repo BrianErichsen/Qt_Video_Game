@@ -38,11 +38,15 @@ UserWindow::UserWindow(User* user, QWidget* parent) : QWidget(parent), loggedInU
         startButton = new QPushButton("Start Game");
         connect(startButton, &QPushButton::clicked, this, &UserWindow::startGame);
 
+        // logoutButton = new QPushButton("Logout");
+        // connect(logoutButton, &QPushButton::clicked, this, &::UserWindow::layout);
+
         mainLayout->addWidget(nameLabel);
         mainLayout->addWidget(profilePictureLabel);
         mainLayout->addWidget(dateLabel);
         mainLayout->addWidget(birthdayLabel);
         mainLayout->addWidget(startButton);
+        // mainLayout->addWidget(logoutButton);
         setLayout(mainLayout);
     } else {
         qDebug() << "User object is nullptr";
@@ -59,3 +63,9 @@ void UserWindow::startGame()
     gameView->show();
     this->hide();
 }
+
+// void UserWindow::logout() {
+//     emit loggedOut();
+//     this->close();
+// }
+
