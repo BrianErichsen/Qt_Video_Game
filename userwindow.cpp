@@ -35,6 +35,13 @@ UserWindow::UserWindow(User* user, QWidget* parent) : QWidget(parent), loggedInU
         } else {
             birthdayLabel->setText("Birthday: " + loggedInUser->getBirthday().toString("yyyy-MM-dd"));
         }
+        // Create a QComboBox widget for selecting game difficulty
+        difficultyComboBox = new QComboBox(this);
+
+        // Add options for game difficulty: Easy, Medium, Hard
+        difficultyComboBox->addItem("Easy", QVariant(1));
+        difficultyComboBox->addItem("Medium", QVariant(2));
+        difficultyComboBox->addItem("Hard", QVariant(3));
 
         startButton = new QPushButton("Start Game");
         connect(startButton, &QPushButton::clicked, this, &UserWindow::startGame);
@@ -48,6 +55,7 @@ UserWindow::UserWindow(User* user, QWidget* parent) : QWidget(parent), loggedInU
         mainLayout->addWidget(dateLabel);
         mainLayout->addWidget(birthdayLabel);
         mainLayout->addWidget(startButton);
+        mainLayout->addWidget(difficultyComboBox);
         // mainLayout->addWidget(logoutButton);
         setLayout(mainLayout);
     } else {
@@ -59,6 +67,8 @@ void UserWindow::startGame()
 {
     game1scene* gameScene = new game1scene();
     QGraphicsView* gameView = new QGraphicsView(gameScene);
+    int difficulty = difficultyComboBox->currentData().toInt();
+    gameScene->setDifficulty(difficulty);
     connect(gameScene, &game1scene::gameFinished, this, [this](int score) {
     loggedInUser->addGameScore(score);
     });

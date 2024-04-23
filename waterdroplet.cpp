@@ -68,6 +68,6 @@ void waterDroplet::move_droplet() {
 // Calculate droplet speed based on game difficulty using exponential growth
 int waterDroplet::calculateSpeedBasedOnGameMode() {
     int difficulty_factor = gameScene->getDifficulty();
-    int base_speed = 15 * pow(2, difficulty_factor - 1); // Exponential increase in speed with difficulty level
+    int base_speed = 5 * pow(2, difficulty_factor - 1); // Exponential increase in speed with difficulty level
     return base_speed;
 }

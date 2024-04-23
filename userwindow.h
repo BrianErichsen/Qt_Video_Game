@@ -6,6 +6,7 @@
 #include <QVBoxLayout>
 #include <QPushButton>
 #include "user.h"
+#include <QComboBox>
 
 class UserWindow : public QWidget
 {
@@ -23,6 +24,7 @@ private:
     QLabel* dateLabel;
     QLabel* birthdayLabel;
     QPushButton* startButton;
+    QComboBox* difficultyComboBox;
     // QPushButton* logoutButton;
 
 private slots:

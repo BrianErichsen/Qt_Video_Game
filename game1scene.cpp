@@ -7,6 +7,8 @@
 #include <QSignalBlocker>
 #include <QMediaPlayer>
 #include <QAudioOutput>
+#include "userwindow.h"
+#include <QGraphicsProxyWidget>
 
 
 
@@ -64,6 +66,11 @@ game1scene::game1scene(QGraphicsScene* parent) : QGraphicsScene(parent)
     spawn_droplets->start(0);
     spawn_droplets->setInterval(10000);
 
+    openUserWindow_btn = new QPushButton("User Window");
+    QGraphicsProxyWidget* proxy = addWidget(openUserWindow_btn);
+    proxy->setPos(10, 10); // Adjust position as needed
+    connect(openUserWindow_btn, &QPushButton::clicked, this, &game1scene::openUserWindow);
+
     //creates appropriate number of water droplets --16
     spawn_water_slot();
     //creates appropriate number of clouds up on the screen
@@ -73,6 +80,7 @@ game1scene::game1scene(QGraphicsScene* parent) : QGraphicsScene(parent)
         clouds->setPos(750 - i * 120, 0);
         addItem(clouds);
     }
+    this_user;
 }
 
 void game1scene::updateScore() {
@@ -89,6 +97,8 @@ void game1scene::updateScore() {
         winText->setPos(xPos, yPos);
         addItem(winText);
         spawn_droplets->stop();
+        backgroundMusic->stop();
+        emit gameFinished(score);
     }
 }
 
@@ -107,6 +117,7 @@ void game1scene::updateMissedDroplet() {
         addItem(gameOverText);
         //stops creating new droplets
         spawn_droplets->stop();
+        backgroundMusic->stop();
     }
 }
 //-------------  getters methods
@@ -147,4 +158,11 @@ int game1scene::setDifficulty(int difficulty) {
 int game1scene::getDifficulty() {
     return currentDifficulty;  // Return the currently stored difficulty value
 }
+
+void game1scene::openUserWindow() {
+    UserWindow* userW = new UserWindow(this_user);
+    userW->show();
+}
+
+
 

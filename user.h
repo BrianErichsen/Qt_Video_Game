@@ -15,6 +15,9 @@ public:
     QString getProfilePicturePath() const;
     static QVector<User*>& getUsers();//static function to get list of users
     QString getPassword() const;
+    QVector<int> gameScores;
+public slots:
+    void addGameScore(int score);
 
 private:
     QString username;
@@ -24,6 +27,7 @@ private:
     QString firstName;
     QString lastName;
     QString gender;
+
 };
 
 #endif // USER_H

@@ -5,6 +5,7 @@ User::User(const QString& username, const QDate& birthday, const QString& profil
     : username(username), birthday(birthday), profilePicturePath(profilePicturePath), firstName(firstName),
     lastName(lastName), password(password), gender(gender)
 {
+    gameScores = QVector<int>();
 }
 
 QString User::getUsername() const {
@@ -26,4 +27,8 @@ QVector<User*>& User::getUsers() {
 
 QString User::getPassword() const {
     return password;
+}
+
+void User::addGameScore(int score) {
+    gameScores.append(score);
 }

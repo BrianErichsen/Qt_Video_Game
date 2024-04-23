@@ -6,6 +6,8 @@
 #include "waterdroplet.h"
 #include <QMediaPlayer>
 #include <QAudioOutput>
+#include "user.h"
+#include <QPushButton>
 
 
 /*Author: Brian Erichsen Fagundes, Xiyao Xu & Xuan Zhang
@@ -16,6 +18,8 @@
 class game1scene : public QGraphicsScene
 {
     Q_OBJECT
+public:
+    User* this_user;
 private:
     QGraphicsTextItem* droplet_count;
     QGraphicsTextItem* score_count;
@@ -25,6 +29,7 @@ private:
     QSoundEffect missSound; // Sound effect for missing a droplet
     QMediaPlayer* backgroundMusic;
     QAudioOutput* audioOutput;
+    QPushButton* openUserWindow_btn;
     int score;
     int collectedDroplets;
     int missedDroplets;
@@ -43,6 +48,10 @@ public slots:
     void updateScore();
     void updateMissedDroplet();
     void spawn_water_slot();
+    void openUserWindow();
+
+signals:
+    void gameFinished(int score);
 };
 
 #endif // GAME1SCENE_H
