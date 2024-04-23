@@ -23,6 +23,11 @@ game1scene::game1scene( QGraphicsScene* parent) :
     scoreSound.setVolume(0.75); // Set volume for scoring sound
     missSound.setSource(QUrl("qrc:/resources/missed_droplets.wav"));
     missSound.setVolume(0.75); // Set volume for missed sound
+    // Initialize background music
+    backgroundMusic = new QMediaPlayer();
+    backgroundMusic->setMedia(QUrl("qrc:/resources/background_music.mp3")); // Set music file
+    backgroundMusic->setVolume(50); // Set volume
+    backgroundMusic->play(); // Play background music
 
     //creates instance of bucket
     bucket* bucket_item = new bucket(this);
@@ -129,6 +134,11 @@ void game1scene::spawn_water_slot() {
     }
 }
 
-int game1scene::getDifficulty() {
-    return 1;
+void game1scene::setDifficulty(int difficulty) {
+    currentDifficulty = difficulty;  // Store the difficulty value set from outside
 }
+
+int game1scene::getDifficulty() {
+    return currentDifficulty;  // Return the currently stored difficulty value
+}
+

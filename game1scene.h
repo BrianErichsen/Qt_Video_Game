@@ -20,9 +20,11 @@ private:
     QTimer* spawn_droplets;
     QSoundEffect scoreSound; // Sound effect for scoring
     QSoundEffect missSound; // Sound effect for missing a droplet
+    QMediaPlayer* backgroundMusic;
     int score;
     int collectedDroplets;
     int missedDroplets;
+    int currentDifficulty;//Used for storing the current game difficulty
 
 public:
     explicit game1scene(QGraphicsScene* parent = nullptr);
