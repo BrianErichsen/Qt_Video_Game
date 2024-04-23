@@ -15,6 +15,7 @@ mainwidget::mainwidget(QWidget* parent) : QWidget{parent}
     password_label = new QLabel("Password:");
     password_edit->setEchoMode(QLineEdit::Password);
 
+
     mainLayout->addWidget(username_label);
     mainLayout->addWidget(username_edit);
     mainLayout->addWidget(password_label);
@@ -28,10 +29,12 @@ mainwidget::mainwidget(QWidget* parent) : QWidget{parent}
     connect(login_btn, &QPushButton::clicked, this, &mainwidget::login_);
     connect(signup_btn, &QPushButton::clicked, this, &mainwidget::signup_);
 
-    signupWidget = new Signup(this);
+    signupWidget = new Signup;
     connect(signupWidget, &Signup::signupSuccessful, this, &mainwidget::onSignupSuccessful);
 
+
     userWindow = nullptr;
+    // connect(userWindow, &UserWindow::loggedOut, this, &mainwidget::handleLogout);
 }
 
 mainwidget::~mainwidget()
@@ -54,24 +57,28 @@ void mainwidget::login_() {
     QString username = username_edit->text();
     QString password = password_edit->text();
 
-
-    QDate birthday(2000, 1, 1);
-    QString profilePicturePath = "path/to/profile/picture.png";
-    User* loggedInUser = new User(username, birthday, profilePicturePath);
-
-
-    userWindow = new UserWindow(loggedInUser);
-    userWindow->show();
-
-
-    this->hide();
+    QList<User*> users = User::getUsers();
+    for (User* user : users) {
+        if (user->getUsername() == username && user->getPassword() == password ) {
+            userWindow = new UserWindow(user);
+            userWindow->show();
+            this->hide();
+            return;
+        }
+    }
+    QMessageBox::warning(this, "Login Failed", "Invalid username or password");
 }
 
 void mainwidget::signup_() {
     signupWidget->show();
+    this->hide();
 }
 
 void mainwidget::onSignupSuccessful() {
     QMessageBox::information(this, "Signup Successful", "You have successfully signed up!");
 }
+
+// void mainwidget::handleLogout() {
+//     this->show();
+// }
 

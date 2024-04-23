@@ -9,6 +9,7 @@
 #include <QLabel>
 #include "signup.h"
 #include "userwindow.h"
+#include "user.h"
 
 class mainwidget : public QWidget
 {
@@ -34,6 +35,7 @@ private slots:
     void login_();
     void signup_();
     void onSignupSuccessful();
+    // void handleLogout();
 };
 
 #endif // MAINWIDGET_H
